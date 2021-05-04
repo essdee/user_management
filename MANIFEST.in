@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include user_management *.css
+recursive-include user_management *.csv
+recursive-include user_management *.html
+recursive-include user_management *.ico
+recursive-include user_management *.js
+recursive-include user_management *.json
+recursive-include user_management *.md
+recursive-include user_management *.png
+recursive-include user_management *.py
+recursive-include user_management *.svg
+recursive-include user_management *.txt
+recursive-exclude user_management *.pyc
