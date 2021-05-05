@@ -9,7 +9,7 @@ import requests
 from frappe.utils import time_diff, now_datetime
 from frappe.core.doctype.user.user import generate_keys
 import secrets
-from frappe.utils.password import check_password, update_password
+from frappe.utils.password import check_password, update_password, get_decrypted_password
 
 class CDLoginAttempt(Document):
 	pass
@@ -79,7 +79,8 @@ def verify_otp(login_attempt_id, incoming_otp):
 def send_otp(mobile_number, generated_otp):
 	settings = frappe.get_single('CD User Management Settings')
 	template_id = settings.msg91_template_id
-	authkey = settings.msg91_auth_key
+	authkey = get_decrypted_password('CD User Management Settings', 'CD User Management Settings',
+			fieldname='msg91_auth_key', raise_exception=False)
 	mobile_number = '91'+mobile_number
 	url = f"https://api.msg91.com/api/v5/otp/?otp={generated_otp}&authkey={authkey}&mobile={mobile_number}&template_id={template_id}"
 	headers = {
@@ -94,7 +95,8 @@ def resend_otp(login_attempt_id):
 	frappe.set_user(settings.default_user)
 	default_limit = settings.resend_otp_limit
 	mobile_number = '91'+frappe.db.get_value('CD Login Attempt', {'name':login_attempt_id}, 'mobile_number')
-	authkey = settings.msg91_auth_key
+	authkey = get_decrypted_password('CD User Management Settings', 'CD User Management Settings',
+			fieldname='msg91_auth_key', raise_exception=False)
 	login_attempt_doc = frappe.get_doc('CD Login Attempt', login_attempt_id)
 	login_attempt_doc.resend_count += 1
 	login_attempt_doc.save()
