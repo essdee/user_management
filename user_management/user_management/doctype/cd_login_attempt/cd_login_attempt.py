@@ -59,22 +59,25 @@ def verify_otp(login_attempt_id, incoming_otp):
 	if not (time_diff(verification_time, login_attempt_doc.generated_time).total_seconds()/60) <= otp_expiry_limit:
 		login_attempt_doc.login_status = 'Expired'
 		login_attempt_doc.save()
-		return {"status":'Expired'}
+		frappe.local.response.http_status_code = 410
+		return 'OTP Expired'
 	
 	if login_attempt_doc.generated_otp == incoming_otp:
 		login_attempt_doc.login_status = 'Success'
 		login_attempt_doc.save()
-		return {"status": "Success"}
+		return 'Success'
 
 	else:
 		if len(login_attempt_doc.failed_attempts) == max_otp_attempts:
 			login_attempt_doc.login_status = 'Blocked'
 			login_attempt_doc.save()
-			return {"status":'Maximum Limit Reached'}
+			frappe.local.response.http_status_code = 410
+			return 'Maximum Limit Reached'
 		else:
 			login_attempt_doc.append('failed_attempts',{'failed_incoming_otp': incoming_otp})
 			login_attempt_doc.save()
-			return {"status":'Failed'}
+			frappe.local.response.http_status_code = 401
+			return 'Incorrect OTP'
 
 def send_otp(mobile_number, generated_otp):
 	settings = frappe.get_single('CD User Management Settings')
@@ -116,12 +119,13 @@ def resend_otp(login_attempt_id):
 				frappe.log_error("login attempt id: "+login_attempt_id+" | error message: " + json_res['message'] , "Resend OTP Error")
 				frappe.local.response.http_status_code = 500
 			if json_res['type'] == 'success':
-				return {"status": "Success"}
+				return 'OTP Sent Successfully'
 		else:
 			frappe.log_error("login attempt id: "+login_attempt_id + " | code: " + str(response.status_code) + " | response: " + response.text , "Resend OTP Error")
 			frappe.local.response.http_status_code = 500
 	else:
-		return {"status":"Maximum Limit Reached"}
+		frappe.local.response.http_status_code = 410
+		return "Maximum Limit Reached"
 
 @frappe.whitelist(allow_guest=True)
 def get_reset_password_key(mobile_number):
