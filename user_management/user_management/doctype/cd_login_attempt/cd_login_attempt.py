@@ -124,7 +124,7 @@ def resend_otp(login_attempt_id):
 		return {"status":"Maximum Limit Reached"}
 
 @frappe.whitelist(allow_guest=True)
-def set_password(mobile_number):
+def get_reset_password_key(mobile_number):
 	settings = frappe.get_single('CD User Management Settings')
 	frappe.set_user(settings.default_user)
 	try:
