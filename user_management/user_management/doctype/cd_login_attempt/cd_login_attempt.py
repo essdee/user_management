@@ -21,7 +21,7 @@ def initiate_otp(mobile_number):
 	generated_otp = '{:0>4}'.format(secrets.randbelow(10**4))
 	user = frappe.db.get_value('User', {'mobile_no':mobile_number})
 	if not user:
-		return {'error_message':'User not found'}
+		frappe.local.response.http_status_code = 404
 	
 	login_attempt_doc = frappe.new_doc('CD Login Attempt')
 	login_attempt_doc.update({
@@ -38,13 +38,13 @@ def initiate_otp(mobile_number):
 	if response.status_code == 200:
 		if json_res['type']== 'error':
 			frappe.log_error("login attempt id: "+login_attempt_doc.name+ " | error message: " + json_res['message'] , "Send OTP Error")
-			return {'error_message':'OTP Generation Failed'}
+			frappe.local.response.http_status_code = 500
 
 		if json_res['type'] == 'success':
 			return {"name":login_attempt_doc.name}
 	else:
 		frappe.log_error("login attempt id: "+login_attempt_doc.name+ " | code: "+str(response.status_code)+ " | error message: " +  response.text , "Send OTP Error")
-		return {'error_message':'OTP Generation Failed'}
+		frappe.local.response.http_status_code = 500
 	return {"name":login_attempt_doc.name}
 
 @frappe.whitelist(allow_guest = True)
@@ -114,12 +114,12 @@ def resend_otp(login_attempt_id):
 		if response.status_code == 200:
 			if json_res['type'] == 'error':
 				frappe.log_error("login attempt id: "+login_attempt_id+" | error message: " + json_res['message'] , "Resend OTP Error")
-				return {"status":"Failed"}
+				frappe.local.response.http_status_code = 500
 			if json_res['type'] == 'success':
 				return {"status": "Success"}
 		else:
 			frappe.log_error("login attempt id: "+login_attempt_id + " | code: " + str(response.status_code) + " | response: " + response.text , "Resend OTP Error")
-			return {"status":"Failed"}
+			frappe.local.response.http_status_code = 500
 	else:
 		return {"status":"Maximum Limit Reached"}
 
