@@ -9,7 +9,7 @@ import requests
 from frappe.utils import time_diff, now_datetime
 from frappe.core.doctype.user.user import generate_keys
 import secrets
-from frappe.utils.password import check_password, update_password, get_decrypted_password
+from frappe.utils.password import get_decrypted_password
 
 class CDLoginAttempt(Document):
 	pass
@@ -124,35 +124,16 @@ def resend_otp(login_attempt_id):
 		return {"status":"Maximum Limit Reached"}
 
 @frappe.whitelist(allow_guest=True)
-def set_password(mobile_number, password):
+def set_password(mobile_number):
 	settings = frappe.get_single('CD User Management Settings')
 	frappe.set_user(settings.default_user)
-	user = frappe.db.get_value('User', {'mobile_no':mobile_number})
 	try:
-		update_password(user, password)
-		return {"status": "Success"}
+		user = frappe.get_doc("User", {'mobile_no':mobile_number})
+		if user:
+			reset_link = user.reset_password()
+			if reset_link:
+				return {'key': user.reset_password_key}
+		else:
+			frappe.local.response.http_status_code = 404
 	except:
-		return {"status":"Failed"}
-
-@frappe.whitelist(allow_guest=True)
-def verify_user(mobile_number, password):
-	settings = frappe.get_single('CD User Management Settings')
-	frappe.set_user(settings.default_user)
-	user = frappe.db.get_value('User', {'mobile_no':mobile_number})
-	if user:
-		try:
-			if check_password(user, password):
-				user = frappe.db.get_value('User', {'mobile_no': mobile_number})
-				api_secret = generate_keys(user)['api_secret']
-				api_key = frappe.db.get_value('User', {'name': user}, "api_key")
-				return {
-				"status":'Success',
-				"api_key": api_key,
-				"api_secret": api_secret,
-				"mobile_no": mobile_number,
-				"name": frappe.db.get_value('User', {'name': user}, "full_name"),
-				}
-		except:
-			return {"status":"Failed"}
-	else:
-		return {'error_message':'User not found'}
+		frappe.local.response.http_status_code = 500
