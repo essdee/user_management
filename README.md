@@ -21,7 +21,9 @@ The User Management code is licensed as GNU General Public License (v3) and the 
    
    #### Endpoint:
 
-   ```/api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.initiate_otp```
+   ```
+   /api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.initiate_otp
+   ```
 
    #### Request Body:
    
@@ -41,7 +43,9 @@ The User Management code is licensed as GNU General Public License (v3) and the 
     
     #### Endpoint:
 
-    ```/api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.verify_otp```
+    ```
+    /api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.verify_otp
+    ```
 
     #### Request Body:
     
@@ -69,7 +73,9 @@ The User Management code is licensed as GNU General Public License (v3) and the 
     
     #### Endpoint:
 
-    ```/api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.resend_otp```
+    ```
+    /api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.resend_otp
+    ```
 
     #### Request Body:
 
