@@ -4,6 +4,12 @@ Frappe application to handle user management.
 
 Reach us out at apps@essdee.dev to connect with our team.
 
+### License
+
+GNU/General Public License (v3) (see [license.txt](license.txt))
+
+The User Management code is licensed as GNU General Public License (v3) and the copyright is owned by Essdee Knitting Mills Private Limited (Essdee) and Contributors.
+
 ### Status codes used:
 1. 401 - Unauthorized.
 2. 404 - The requested resource could not be found but may be available in the future.
@@ -15,7 +21,7 @@ Reach us out at apps@essdee.dev to connect with our team.
    
    #### Endpoint:
 
-   /api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.initiate_otp
+   ```/api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.initiate_otp```
 
    #### Request Body:
    
@@ -35,7 +41,7 @@ Reach us out at apps@essdee.dev to connect with our team.
     
     #### Endpoint:
 
-    /api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.verify_otp
+    ```/api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.verify_otp```
 
     #### Request Body:
     
@@ -63,7 +69,7 @@ Reach us out at apps@essdee.dev to connect with our team.
     
     #### Endpoint:
 
-    /api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.resend_otp
+    ```/api/method/user_management.user_management.doctype.cd_otp_auth_attempt.cd_otp_auth_attempt.resend_otp```
 
     #### Request Body:
 
@@ -78,9 +84,3 @@ Reach us out at apps@essdee.dev to connect with our team.
     429 - {"message": "Maximum Limit Reached"}
     
     500 - {"message": "Resend OTP Failed"}
-
-#### License
-
-GNU/General Public License (v3) (see [license.txt](license.txt))
-
-The User Management code is licensed as GNU General Public License (v3) and the copyright is owned by Essdee Knitting Mills Private Limited (Essdee) and Contributors.
