@@ -1,0 +1,113 @@
+{
+ "creation": "2021-05-18 08:16:00.092510",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "mobile_number",
+  "column_break_2",
+  "verify_action",
+  "otp_information_section",
+  "generated_otp",
+  "generated_time",
+  "resend_count",
+  "column_break_11",
+  "login_status",
+  "failed_attempts"
+ ],
+ "fields": [
+  {
+   "fieldname": "mobile_number",
+   "fieldtype": "Data",
+   "label": "Mobile Number",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "otp_information_section",
+   "fieldtype": "Section Break",
+   "label": "OTP Information"
+  },
+  {
+   "fieldname": "generated_otp",
+   "fieldtype": "Data",
+   "label": "Generated OTP",
+   "permlevel": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "generated_time",
+   "fieldtype": "Data",
+   "label": "Generated Time",
+   "read_only": 1
+  },
+  {
+   "fieldname": "resend_count",
+   "fieldtype": "Int",
+   "label": "Resend count",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_11",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "login_status",
+   "fieldtype": "Data",
+   "label": "Login Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "failed_attempts",
+   "fieldtype": "Table",
+   "label": "Failed Attempts",
+   "options": "CD OTP Auth Attempt Failed Attempt",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "verify_action",
+   "fieldtype": "Data",
+   "label": "Verify Action",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "modified": "2021-05-18 08:20:40.144439",
+ "modified_by": "Administrator",
+ "module": "User Management",
+ "name": "CD OTP Auth Attempt",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
